@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nsight-python"
+dynamic = ["version"]
+description = "Profiling tools for GPU kernel analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "NVIDIA Proprietary" }
+authors = [
+    { name = "NVIDIA Corporation" }
+]
+dependencies = [
+  "nvtx",
+  "pandas",
+  "numpy",
+  "matplotlib",
+  "nvidia-ml-py",
+]
+
+[project.optional-dependencies]
+cu12 = ["cuda-core[cu12]"]
+cu13 = ["cuda-core[cu13]"]
+
+[project.urls]
+Repository = "https://github.com/NVIDIA/nsight-python"
+
+[tool.hatch.build.targets.wheel]
+include = ["nsight"]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "nsight/__init__.py"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:builtin type SwigPy.* has no __module__ attribute:DeprecationWarning",
+    "ignore:builtin type swigvarlink has no __module__ attribute:DeprecationWarning"
+
+]
+
+[tool.hatch.envs.docs]
+dependencies = [
+  "sphinx>=7.0",
+  "sphinx-autodoc-typehints>=1.24",
+  "furo>=2022.12",
+  "nvidia-sphinx-theme==0.0.8",
+  "sphinx-mdinclude>=0.6",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = [
+  "sphinx-build -b html docs/source html",
+]
+
+[tool.hatch.envs.lint]
+dependencies = [
+  "black",
+  "isort",
+  "mypy",
+]
+
+[tool.hatch.envs.lint.scripts]
+check = [
+  "black --check .",
+  "isort --check .",
+  "mypy --strict --ignore-missing-imports .",
+]
+
+format = [
+   "black .",
+   "isort .",
+]
