@@ -22,5 +22,3 @@ Installation
 Please refer to the `installation instructions
 <https://docs.nvidia.com/nsight-python/installation/installation_from_pypi.html>`_
 for more details.
-
-____
